@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+    Customer
+</button>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".exampleModal2">
+    Product
+</button>
+
+@Html.Action("CustomerPopup", "Catalog")
+
+@Html.Action("ProductPopup", "Catalog")

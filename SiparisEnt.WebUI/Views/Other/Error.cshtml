@@ -1,0 +1,72 @@
+﻿
+
+@{
+    ViewBag.Title = "Error";
+}
+<div class="main-content">
+    <div class="main-content-inner">
+        <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+            <ul class="breadcrumb">
+                <li>
+                    <i class="ace-icon fa fa-home home-icon"></i>
+                    <a href="#">Ana SAYFA</a>
+                </li>
+
+                <li>
+                    <a href="#">Diğer Sayfalar</a>
+                </li>
+                <li class="active">Bilgilendirme</li>
+            </ul><!-- /.breadcrumb -->
+
+
+        </div>
+
+        <div class="page-content">
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <!-- PAGE CONTENT BEGINS -->
+
+                    <div class="error-container">
+                        <div class="well">
+                            <h1 class="grey lighter smaller">
+                                <span class="blue bigger-125">
+                                    <i class="ace-icon fa fa-sitemap"></i>
+                                    !
+                                </span>
+                               Bilgilendirme
+                            </h1>
+
+                            <hr />
+                            <h3 class="lighter smaller">
+                                @if (TempData["validation"] != null)
+                                {
+                                <p>@TempData["validation"]</p>
+                                }
+                            </h3>
+
+
+
+                            <hr />
+                            <div class="space"></div>
+
+                            <div class="center">
+                                <a href="javascript:history.back()" class="btn btn-grey">
+                                    <i class="ace-icon fa fa-arrow-left"></i>
+                                    Geri
+                                </a>
+
+                                <a href="/Home" class="btn btn-primary">
+                                    <i class="ace-icon fa fa-tachometer"></i>
+                                    Ana Sayfa
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PAGE CONTENT ENDS -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.page-content -->
+    </div>
+</div><!-- /.main-content -->

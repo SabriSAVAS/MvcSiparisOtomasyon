@@ -1,0 +1,131 @@
+﻿@model SiparisEnt.Dto.ProductVM.ProductSearchModel
+@{
+    ViewBag.Title = "List";
+}
+
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home">Ana SAYFA</a>
+            </li>
+
+            <li class="active">Ürün & Stok Kartları</li>
+        </ul><!-- /.breadcrumb -->
+
+        <div>
+
+
+        </div>
+    </div>
+
+    <div class="page-content">
+
+        <a href="javascript:window.history.back();" style="margin-bottom: 10px" class="btn btn-danger pull-right"><i class="fa fa-chevron-circle-left"></i> Geri Dön</a>
+        <a href="/Product/Add" style="margin-bottom: 10px;margin-right: 5px" class="btn btn-info pull-right"><i class="fa fa-plus-circle"></i> Yeni Ürün Kartı</a>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab">
+                        <li class="active">
+                            <a data-toggle="tab" href="#search">
+                                <i class="green ace-icon glyphicon glyphicon-search"></i>
+                                Arama
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="search" class="tab-pane fade in active">
+
+                            @using (Ajax.BeginForm("List", "Product", FormMethod.Post, new AjaxOptions { OnSuccess = "ajaxonsuccess" }))
+                            {
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right">Ürün Kodu </label>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.ProductCode, new { @class = "form-control", @placeholder = "Ürün Kodu" })
+
+                                                <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                                            </div>
+                                        </div>
+
+                                        <label class="col-sm-1 control-label no-padding-right">Ürün Adı </label>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.ProductName, new { @class = "form-control", @placeholder = "Ürün Adı" })
+
+                                                <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button type="submit" class="btn btn-primary btn-sm pull-left"><i class="glyphicon glyphicon-search"></i> Arama</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div id="productlist">
+                        @Html.Partial("_productList", Model)
+                    </div>
+
+                </div>
+
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content -->
+</div>
+
+
+@section Scripts{
+
+    <script>
+        function ajaxonsuccess(result) {
+            $("#productlist").html(result);
+        }
+    </script>
+
+
+    <script>
+        function productDelete(Id) {
+            bootbox.confirm("Silmek istediğinize emin misiniz?",
+                function(resconfirm) {
+                    if (resconfirm) {
+                        $.ajax({
+                            type: "Post",
+                            url: "/Product/Delete/" + Id,
+                            contentType: "application/json",
+                            dataType: 'json',
+                            success: function(dataresult) {
+
+                                console.log(dataresult.Message + "/" + dataresult.ErrorType);
+
+                                noty({ text: dataresult.Message, layout: 'topRight', type: dataresult.ErrorType });
+                                if (dataresult.ErrorType === "success") {
+                                    $("#tr_" + Id).remove();
+
+                                }
+                            },
+                            error: function(xhr, statusText, err) {
+                                alert("Error:" + xhr.status);
+                            }
+                        });
+                    }
+                });
+        }
+
+
+    </script>
+
+
+}

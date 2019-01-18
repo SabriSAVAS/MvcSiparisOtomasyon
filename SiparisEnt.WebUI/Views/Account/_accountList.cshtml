@@ -1,0 +1,96 @@
+﻿@using PagedList.Mvc
+@using PagedList
+@model SiparisEnt.Dto.AccountVM.AccountSearchModel
+@*<h3 class="header smaller lighter blue">Ürün & Stoklar Listesi</h3>*@
+@helper GetstatuHelperResult(bool statu)
+    {
+
+        if (statu)
+        {
+            <text>  <span class="label label-success label-white middle">Aktif</span></text>
+        }
+        else
+        {
+            <text>  <span class="label label-danger label-white middle">Pasif</span></text>
+        }
+}
+
+<div style="padding-top: 25px" class="row">
+
+    <h3 class="header smaller lighter blue">Kullanıcılar Listesi</h3>
+    <div class="table-header">
+        ........
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th class="center">Kullanıcı ID</th>
+                    <th class="center">Ad & Soyad</th>
+                    <th class="center">eMail</th>
+                    <th class="center">Telefon</th>
+                    <th class="center">Cinsiyet</th>
+                    <th class="center">Giriş Tarihi</th>
+                    <th class="center">Durum</th>
+                    <th class="center"><span class="glyphicon glyphicon-cog"></span></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.AccountList != null && Model.AccountList.Count != 0)
+                {
+                    foreach (var accountModel in Model.AccountList)
+                    {
+
+
+                        <tr id="tr_@accountModel.Id">
+                            <td class="center">
+                                @accountModel.Id
+                            </td>
+                            <td class="center">@accountModel.FirstName & @accountModel.LastName</td>
+                            <td class="center">@accountModel.eMail</td>
+                            <td class="center">@accountModel.Phone</td>
+                            <td class="center">@accountModel.Gender</td>
+                            <td class="center">@string.Format("{0:dd.MMM.yyyy}", accountModel.LoginDate)</td>
+                            <td class="center">@GetstatuHelperResult(accountModel.IsActive)</td>
+                            <td class="center">
+                                <a href="/Account/Edit/@accountModel.Id" class="btn btn-xs btn-info">
+                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                </a>
+                                <a href="javascript:accountChangePassword(@accountModel.Id)" class="btn btn-xs btn-success">
+                                    <i class="ace-icon fa fa-key bigger-120"></i>
+                                </a>
+                                <a href="javascript:accountDelete(@accountModel.Id)" class="btn btn-xs btn-danger">
+                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="center" colspan="6">
+                            <p> Kayıtlı bir ürün bulunmamaktadır.</p>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="pull-right" style="padding-right:5px">
+            @Html.PagedListPager(Model.AccountList, page => Url.Action("List", new RouteValueDictionary
+                {
+                    {"Page",page},
+                    {"UserName",Model.UserName},
+                    {"eMail",Model.eMail}
+
+                }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions { UpdateTargetId = "accountlist" }))
+
+
+        </div>
+    </div>
+
+
+</div><!-- /.col -->

@@ -1,0 +1,62 @@
+﻿
+@using PagedList.Mvc
+@model SiparisEnt.Dto.CatalogVM.CustomerPopupModel
+<table class="table table-bordered table-condensed">
+    <thead>
+    <tr>
+        <th class="center">Müşteri ID</th>
+        <th>Müşteri Ünvanı</th>
+        <th>Telefon</th>
+        <th>İşlemler</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model.CustomerListPopups != null && Model.CustomerListPopups.Count != 0)
+    {
+        foreach (var customer in Model.CustomerListPopups)
+        {
+            <tr class="center">
+                <td>
+                    <label id="customerId_@customer.Id" data-id="@customer.Id">
+                        @customer.Id
+                    </label>
+                </td>
+                <td>
+                    <label id="customername_@customer.Id" data-id="@customer.Name">
+                        @customer.Name
+                    </label>
+                </td>
+                <td>
+                    <label id="customerphone_@customer.Id" data-id="@customer.Phone">
+                        @customer.Phone
+                    </label>
+                </td>
+                <td class="center">
+
+                    <a href="javascript:customerselect(@customer.Id)" class="btn btn-sm btn-default">
+                        <i class="glyphicon glyphicon-ok"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+
+    }
+    else
+    {
+        <tr>
+            <td class="center" colspan="4"><h4>Kayıtlı Müşteri Bulunmadı !</h4></td>
+        </tr>
+    }
+
+    </tbody>
+</table>
+
+<div class="pull-right btn-group btn-corner" style="padding-right:5px">
+    @Html.PagedListPager(Model.CustomerListPopups, page => Url.Action("CustomerPopup", new RouteValueDictionary
+    {
+        {"Page",page},
+        {"CustomerName",Model.CusName}
+    }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions { UpdateTargetId = "customerlistpopup" }))
+
+
+</div>

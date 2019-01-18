@@ -1,0 +1,41 @@
+﻿@model SiparisEnt.Dto.AccountVM.AccountModel
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home">Ana SAYFA</a>
+            </li>
+
+            <li>
+                <a href="/Account">Kullanıcılar</a>
+            </li>
+            <li class="active">Kullanıcıyı Düzenle</li>
+        </ul><!-- /.breadcrumb -->
+
+        <div>
+
+
+        </div>
+    </div>
+
+    <div class="page-content">
+
+        <a href="javascript:window.history.back();" style="margin-bottom: 10px" class="btn btn-danger pull-right"><i class="fa fa-chevron-circle-left"></i> Geri Dön</a>
+
+
+
+        <div class="row">
+            <div class="col-xs-12">
+
+                @Html.Partial("_AddEditAccount", Model)
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content -->
+</div>
+

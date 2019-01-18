@@ -1,0 +1,63 @@
+﻿@model SiparisEnt.Dto.CatalogVM.ProductPopupModel
+<div class="modal fade bd-example-modal-lg exampleModal2" id="productpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Ürün Listesi</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    @using (Ajax.BeginForm("ProductPopup", "Catalog", FormMethod.Post, new AjaxOptions { OnSuccess = "productpopupsuccess" }))
+                    {
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-2 control-label">Ürün Kodu : </label>
+                                <div class="col-md-4">
+                                    <div class="input-icon-right">
+                                        @Html.TextBoxFor(x => x.ProductCode, new { @class = "form-control", @placeholder = "Ürün Kodu" })
+                                    </div>
+                                </div>
+                           
+                                <label class="col-md-2 control-label">Ürün İsmi : </label>
+                                <div class="col-md-4">
+                                    <div class="input-icon-right">
+                                        @Html.TextBoxFor(x => x.ProductName, new { @class = "form-control", @placeholder = "Ürün İsmi" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label"> </label>
+                                <div class="col-md-10">
+                                    <button type="submit" class="btn btn-primary btn-sm pull-right"><i class="glyphicon glyphicon-search"></i> Arama</button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <div class="table-responsive">
+                        <div id="productlistpopup">
+                            @Html.Partial("ProductListPopup", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    function productpopupsuccess(result) {
+        $("#productlistpopup").html(result);
+    }
+</script>
+

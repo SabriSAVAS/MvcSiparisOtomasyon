@@ -1,0 +1,182 @@
+﻿@model  SiparisEnt.Dto.CustomerVM.CustomerSearchModel
+@{
+    ViewBag.Title = "List";
+}
+
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home">Ana SAYFA</a>
+            </li>
+
+            <li class="active">Müşteri Kartları</li>
+        </ul><!-- /.breadcrumb -->
+
+        <div>
+
+
+        </div>
+    </div>
+
+    <div class="page-content">
+
+        <a href="javascript:customerpopup()" style="margin-bottom: 10px;margin-right: 5px" class="btn btn-info  pull-right" id="bootbox-confirm"><i class="fa fa-plus-circle"></i> Yeni Musteri</a>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab">
+                        <li class="active">
+                            <a data-toggle="tab" href="#search">
+                                <i class="green ace-icon glyphicon glyphicon-search"></i>
+                                Arama
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="search" class="tab-pane fade in active">
+
+                            @using (Ajax.BeginForm("List", "Customer", FormMethod.Post, new AjaxOptions { OnSuccess = "ajaxonsuccess" }))
+                        {
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label no-padding-right">Müşteri Unvanı </label>
+
+                                    <div class="col-sm-5">
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control", @placeholder = "Müşteri Unvanı" })
+
+                                            <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                                        </div>
+                                    </div>
+
+                                   
+                                 
+                                    <div class="col-sm-5">
+                                        <button type="submit" class="btn btn-primary btn-sm pull-left"><i class="glyphicon glyphicon-search"></i> Arama</button>
+                                    </div>
+                                </div>
+                            </div>
+                    }
+                        </div>
+                    </div>
+
+
+                    <div id="customerlist">
+                        @Html.Partial("_customerList", Model)
+                    </div>
+
+                </div>
+
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+
+
+    </div><!-- /.row -->
+</div><!-- /.page-content -->
+
+
+@Html.Action("AddEditCustomer", "Customer")
+
+
+
+
+@section Scripts{
+
+    <script>
+        function customerpopup() {
+            $("form")[0].reset();
+            document.getElementById("form1").reset();
+            $("#Id").val(0);
+            $('#customerpopup').modal('show');
+        }
+
+    </script>
+    <script>
+        function ajaxonsuccess(result) {
+            $("#customerlist").html(result);
+        }
+    </script>
+    <script>
+        function onsuccess(result) {
+            if (result == "1") {
+                console.log("eklendi");          
+                noty({ text: 'Ekleme işlemi başarılı !', layout: 'topRight', type: 'success' });
+            }
+            else if (result == "2") {
+                noty({ text: 'Güncelleme işlemi başarılı !', layout: 'topRight', type: 'success' });
+            }
+            else {
+                noty({ text: 'İşlem sırasında bir hata oluştu !', layout: 'topRight', type: 'error' });
+            }
+            $("form")[0].reset();
+            $('#customerpopup').modal('hide');
+        }
+    </script>
+
+    <script>
+        function customerEdit(Id) {
+
+            $.ajax({
+                type: "Post",
+                url: "/Customer/Edit",
+                data: { Id: Id },
+                dataType: "json",
+                success: function (result) {
+                    $('#customerpopup').modal('show');
+                    $("#Id").val(result.Id);
+                    $("#Name").val(result.Name);
+                    $("#Phone").val(result.Phone);
+                    $("#Fax").val(result.Fax);
+                    $("#eMail").val(result.eMail);
+                    $("#Address").val(result.Address);
+                    $("#TaxOffice").val(result.TaxOffice);
+                    $("#TaxNumber").val(result.TaxNumber);
+                    $("#Country").val(result.Country);
+                    $("#CityId").val(result.CityId);
+                    $("#TaxNumber").val(result.TaxNumber);
+                    $("#IsActive").val(result.IsActive);
+
+                }
+
+            });
+        }
+    </script>
+
+    <script>
+        function customerDelete(id) {
+            bootbox.confirm("Silmek istediğinize emin misiniz?",
+                function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "Post",
+                            url: "/Customer/Delete",
+                            data: { Id: id },
+                            success: function (result) {
+
+                                console.log(result.Message + "/" + result.ErrorType);
+                                var errorType = result.ErrorType;
+                                var message = result.Message;
+
+                                toastr[errorType](message);
+                                if (result.ErrorType === "success") {
+                                    $("#tr_" + id).remove();
+
+                                }
+                            },
+                            error: function (xhr, statusText, err) {
+                                alert("Error:" + xhr.status);
+                            }
+                        });
+                    }
+                });
+        }
+
+
+    </script>
+}

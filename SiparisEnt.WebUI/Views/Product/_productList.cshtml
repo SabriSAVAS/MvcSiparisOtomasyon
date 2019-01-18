@@ -1,0 +1,91 @@
+﻿@using PagedList.Mvc
+@using PagedList
+@model SiparisEnt.Dto.ProductVM.ProductSearchModel
+@*<h3 class="header smaller lighter blue">Ürün & Stoklar Listesi</h3>*@
+
+<div style="padding-top: 25px" class="row">
+
+    <h3 class="header smaller lighter blue">Ürün & Stoklar Listesi</h3>
+    <div class="table-header">
+        ........
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+
+                    <th class="center">Ürün ID</th>
+                    <th>Ürün Adı</th>
+                    <th>Stok Kodu</th>
+                    <th>Satış Fiyatı</th>
+                    <th>Oluşturma Tarihi</th>
+                    <th class="center"><span class="glyphicon glyphicon-cog"></span></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                @if (Model.ProdcutList != null && Model.ProdcutList.Count != 0)
+                {
+                    foreach (var productModel in Model.ProdcutList)
+                    {
+
+
+                        <tr id="tr_@productModel.Id">
+                            <td class="center">
+                                @productModel.Id
+                            </td>
+                            <td>
+                                @productModel.ProductName
+                            </td>
+                            <td>
+                                @productModel.ProductCode
+                            </td>
+                            <td>
+                                @string.Format("{0:c}", Convert.ToDecimal(productModel.Price))
+                            </td>
+
+                            <td>
+                                @string.Format("{0:dd.MMM.yyyy}", productModel.CreatedDate)
+                            </td>
+
+                            <td class="center">
+                                <a href="/Product/Update/@productModel.Id" class="btn btn-xs btn-info">
+                                    <i class="ace-icon fa fa-pencil bigger-120"></i>
+                                </a>
+
+                                <a href="javascript:productDelete(@productModel.Id)" class="btn btn-xs btn-danger">
+                                    <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td class="center" colspan="6">
+                            <p> Kayıtlı bir ürün bulunmamaktadır.</p>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+        <div class="pull-right" style="padding-right:5px">
+            @Html.PagedListPager(Model.ProdcutList, page => Url.Action("List", new RouteValueDictionary
+                {
+                    {"Page",page},
+                    {"ProductCode",Model.ProductCode},
+                    {"ProductName",Model.ProductName}
+
+                }), PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions { UpdateTargetId = "productlist" }))
+
+
+        </div>
+    </div>
+
+
+</div><!-- /.col -->
+
+

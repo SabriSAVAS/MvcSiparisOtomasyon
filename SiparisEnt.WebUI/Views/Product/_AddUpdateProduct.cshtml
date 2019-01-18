@@ -1,0 +1,140 @@
+﻿@model SiparisEnt.Dto.ProductVM.ProductModel
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.Product.Id)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+            Ürünler & Ürün Kartı Oluştur
+        </div>
+
+        <div class="panel-body">
+
+
+            <div class="col-xs-12 col-md-12">
+
+                <div class="form-horizontal">
+                    <legend>
+                        <small>  Ürün Bilgileri</small>
+                    </legend>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">Ürün Adı </label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Product.ProductName, new { @class = "form-control", @placeholder = "Ürün Adı" })
+                                <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                            </div>
+                            <span class="help-block">@Html.ValidationMessageFor(x => x.Product.ProductName)</span>
+                        </div>
+                    </div>
+
+                  
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label no-padding-right">Ürün Kodu </label>
+
+                            <div class="col-sm-5">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.Product.ProductCode, new { @class = "form-control", @placeholder = "Ürün Kodu" })
+                                    <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                                </div>
+                                <span class="help-block">@Html.ValidationMessageFor(x => x.Product.ProductCode)</span>
+                            </div>
+                        </div>
+
+                 
+                 
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">Kategori</label>
+
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                @Html.DropDownListFor(x => x.Product.CategoryId, Model.CategoryList, "Seçiniz", new { @class = "form-control" })
+                                <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+
+                            </div>
+                            <span class="help-block">@Html.ValidationMessageFor(x => x.Product.CategoryId)</span>
+                        </div>
+
+                        <label class="col-sm-1 control-label no-padding-right">Marka </label>
+
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                @Html.DropDownListFor(x => x.Product.BrandId, Model.BrandList, "Seçiniz", new { @class = "form-control" })
+                                <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                            </div>
+                            <span class="help-block">@Html.ValidationMessageFor(x => x.Product.BrandId)</span>
+                        </div>
+                    </div>
+                    <legend>
+                        <small>  Stok Bilgileri</small>
+                    </legend>
+
+                    <div class="form-group">
+
+                        <label class="col-sm-2 control-label no-padding-right">Birim </label>
+
+                        <div class="col-sm-4">
+                            <div class="input-group">
+                                @Html.DropDownListFor(x => x.Product.UnitId, Model.UnitList, "Seçiniz", new { @class = "form-control" })
+                            </div>
+                            <span class="help-block">@Html.ValidationMessageFor(x => x.Product.UnitId)</span>
+                        </div>
+                    </div>
+
+
+                    <legend>
+                        <small>  Fiyat Bilgileri</small>
+                    </legend>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label no-padding-right">Para Birimi </label>
+
+                        <div class="col-sm-2">
+                            <div class="input-group">
+                                @Html.DropDownListFor(x => x.Product.Exc, Model.ExcList, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                        <label class="col-sm-1 control-label no-padding-right">Kdv Oranı </label>
+
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                @Html.DropDownListFor(x => x.Product.Tax, Model.TaxList, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+
+                        <label class="col-sm-1 control-label no-padding-right">Birim Fiyatı </label>
+
+                        <div class="col-sm-3">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Product.Price, new { @class = "form-control", @placeholder = "0.00" })
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="clearfix form-actions">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button class="btn btn-info  pull-right" style="margin-left:10px" type="submit">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                Kaydet
+                            </button>
+
+
+                            <button class="btn  pull-right" type="reset">
+                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                Temizle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

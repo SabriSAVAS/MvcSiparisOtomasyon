@@ -1,0 +1,167 @@
+﻿@model SiparisEnt.Dto.DashboardVM.DashboardViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home">Ana SAYFA</a>
+            </li>
+
+
+        </ul><!-- /.breadcrumb -->
+
+        <div class="nav-search" id="nav-search">
+
+        </div><!-- /.nav-search -->
+    </div>
+
+    <div class="page-content">
+
+        <div class="row">
+            <div class="col-xs-12 center">
+
+                <div class="infobox infobox-pink">
+                    <div class="infobox-icon">
+                        <i class="ace-icon fa fa-shopping-cart"></i>
+                    </div>
+
+                    <div class="infobox-data">
+                        <span class="infobox-data-number">@Model.NewPaddingOrder</span>
+                        <div class="infobox-content">Bekleyen Siparişler</div>
+                    </div>
+
+                </div>
+
+
+                <div class="infobox infobox-green">
+                    <div class="infobox-icon">
+                        <i class="ace-icon glyphicon glyphicon-ok"></i>
+                    </div>
+
+                    <div class="infobox-data">
+                        <span class="infobox-data-number">@Model.CompletedOrder</span>
+                        <div class="infobox-content">Tamamlanan Siparişler</div>
+                    </div>
+
+
+                </div>
+
+                <div class="infobox infobox-blue">
+                    <div class="infobox-icon">
+                        <i class="ace-icon glyphicon glyphicon-cog"></i>
+                    </div>
+
+                    <div class="infobox-data">
+                        <span class="infobox-data-number">@Model.PreparedOrder</span>
+                        <div class="infobox-content">Hazırlanan Siparişler</div>
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="infobox infobox-red">
+                    <div class="infobox-icon">
+                        <i class="ace-icon glyphicon glyphicon-road"></i>
+                    </div>
+
+                    <div class="infobox-data">
+                        <span class="infobox-data-number">@Model.OrdersShipped</span>
+                        <div class="infobox-content">Kargoyadaki Siparişler</div>
+                    </div>
+                </div>
+
+                <div class="infobox infobox-orange2">
+                    <div class="infobox-icon">
+                     
+                        <i class="ace-icon glyphicon glyphicon-briefcase"></i>
+                    </div>
+
+                    <div class="infobox-data">
+                        <span class="infobox-data-number">
+                        @String.Format("{0:c}", Model.CompletedOrderTotal)
+                        </span>
+                        <div class="infobox-content">Toplam Sipariş Tutarı</div>
+                    </div>
+                  
+                    
+                </div>
+
+                <div class="infobox infobox-blue2">
+                    <div class="infobox-progress">
+                        <div class="easy-pie-chart percentage" data-percent="42" data-size="46" style="height: 46px; width: 46px; line-height: 45px;">
+                            <span class="percent">42</span>%
+                            <canvas height="46" width="46"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="infobox-data">
+                        <span class="infobox-text">traffic used</span>
+
+                        <div class="infobox-content">
+                            <span class="bigger-110">~</span>
+                            58GB remaining
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <div class="hr hr32 hr-dotted"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        Son 10 Sipariş
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Sip No</th>
+                                    <th>Sip Tarihi</th>
+                                    <th>M.Ünvanı</th>
+                                    <th>Sip Tutarı</th>
+                                    <th>Sip Durumu</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var order in Model.OrderDetailItems)
+                                {
+                                    <tr>
+
+                                        <td class="center">@order.OrderSeries - @order.OrderNo</td>
+                                        <td> @string.Format("{0:dd.MMM.yyyy}", order.OrderDate)</td>
+                                        <td>@order.CustomerName</td>
+                                        <td>
+                                            @String.Format("{0:c}", order.OrderTotal)
+                                        </td>
+                                        <td>@order.StatusName</td>
+
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="col-md-6"></div>
+        </div>
+
+    </div><!-- /.page-content -->
+</div>

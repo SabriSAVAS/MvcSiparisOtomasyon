@@ -1,0 +1,266 @@
+﻿@model SiparisEnt.Dto.OrderVM.OrderModel
+
+<div class="page-content">
+
+
+    <a href="javascript:window.history.back();" style="margin-bottom: 10px" class="btn btn-danger pull-right"><i class="fa fa-chevron-circle-left"></i> Geri Dön</a>
+
+    @if (Model != null)
+    {
+        if (Model.Order.Id != 0)
+        {
+            <div class="pull-right">
+                <a href="/Order/OrderDelete?orderId=@Model.Order.Id" class="btn btn-info">Sipariş Sil</a>
+            </div>
+        }
+
+    }
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="tabbable">
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab">
+                    <li class="active">
+                        <a data-toggle="tab" href="#order">
+                            <i class="green ace-icon fa fa-lg fa-eye"></i>
+                            Siparis Bilgileri
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary()
+                        @Html.ValidationMessage("ValidationException")
+                        @Html.HiddenFor(x => x.Order.UserId)
+                        @Html.HiddenFor(x => x.Order.Id)
+                        <div id="order" class="tab-pane fade in active">
+                            <legend>
+                                <small> Yeni Sipariş Oluştur</small>
+                                @if (Model != null)
+                                {
+                                    if (Model.Order.Id != 0)
+                                    {
+
+                                        <div class="pull-right">
+                                            @Html.DropDownListFor(x => x.Order.StatusId, Model.StatusList, new { @style = "margin-top: -10px", @class = "form-control" })
+                                        </div>
+
+                                    }
+                                }
+                            </legend>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="panel panel-info">
+                                        <div class="panel-heading">
+                                            Müsteri Bilgileri
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label for="input3" class="col-sm-3 control-label">Müşteri Ünvanı</label>
+
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </span>
+                                                        @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control", @placeholder = "Müşteri Unvanı" })
+                                                        @Html.HiddenFor(x => x.Order.CustomerId)
+                                                        <span class="input-group-addon">  <a href="javascript:customerpopup()">Seç</a></span>
+                                                    </div>
+                                                    <span class="help-block">@Html.ValidationMessageFor(x => x.Order.CustomerId)</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="input3" class="col-sm-3 control-label">Yetkili Kişi</label>
+
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </span>
+                                                        @Html.TextBoxFor(x => x.Order.CustomerAuthorized, new { @class = "form-control", @placeholder = "Yetkili Kişi" })
+                                                        <span class="input-group-addon"><a href="javascript:customerAuthorizedpopup()">Seç</a></span>
+                                                    </div>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="input3" class="col-sm-3 control-label">Sipariş No</label>
+                                                <div class="col-sm-5">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </span>
+                                                        @Html.TextBoxFor(x => x.Order.OrderSeries, new { @onchange = "ordercheck();", @class = "form-control", @placeholder = "Sip Seri" })
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </span>
+                                                        @Html.TextBoxFor(x => x.Order.OrderNo, new { @type = "number", @class = "form-control", @placeholder = "Sip No" })
+
+                                                    </div>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="input3" class="col-sm-3 control-label">Sipariş Tarihi</label>
+
+                                                <div class="col-sm-9">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        @Html.TextBoxFor(x => x.Order.OrderDate, "{0:dd/MM/yyyy}", new { @class = "form-control pull-right datepicker2" })
+
+                                                    </div>
+                                                    <span class="help-block">@Html.ValidationMessageFor(x => x.Order.OrderDate)</span>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+                                        <div class="panel-footer"></div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="penel panel-info">
+                                        <div class="panel-heading">
+                                            Siparis Bilgileri
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="form-group">
+                                                <label for="input3" class="col-sm-3 control-label">Ödeme Şekli</label>
+
+                                                <div class="col-sm-9">
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </span>
+                                                        @Html.TextBoxFor(x => x.Order.PayMethod, new { @class = "form-control", @placeholder = "Ödeme Şekli" })
+                                                        <span class="input-group-addon">Gün</span>
+                                                    </div>
+                                                    <span class="help-block"></span>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="input3" class="col-sm-3 control-label">Teslim Şekli</label>
+
+                                                <div class="col-sm-9">
+                                                    @Html.DropDownListFor(x => x.Order.DeliveryId, Model.DeliveryList, new { @class = "form-control" })
+
+                                                    <span class="help-block">@Html.ValidationMessageFor(x => x.Order.DeliveryId)</span>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="input3" class="col-sm-3 control-label">Teslim Tarihi</label>
+
+                                                <div class="col-sm-9">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        @Html.TextBoxFor(x => x.Order.DeliveryDate, "{0:dd/MM/yyyy}", new { @class = "form-control pull-right datepicker1" })
+                                                    </div>
+                                                    <span class="help-block">@Html.ValidationMessageFor(x => x.Order.DeliveryDate)</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="input3" class="col-sm-3 control-label">Döviz</label>
+
+                                                <div class="col-sm-3">
+                                                    @Html.DropDownListFor(x => x.Order.ExchangeId, Model.ExchangeList, new { @class = "form-control" })
+                                                </div>
+                                                <label for="input3" class="col-sm-1 control-label">Kur</label>
+                                                <div class="col-sm-5">
+                                                    <div class="input-group">
+
+                                                        @Html.TextBoxFor(x => x.Order.ExchangeRate, new { @class = "form-control" })
+
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-try"></i>
+                                                        </span>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-dollar"></i>
+                                                        </span>
+                                                        <span class="input-group-addon">
+                                                            <i class="fa fa-euro"></i>
+                                                        </span>
+                                                    </div>
+                                                    <span class="help-block"></span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="panel-footer"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div style="padding-top: 10px" class="row">
+
+                                <div id="orderbasketlist" class="col-xs-12">
+                                    @Html.Partial("_OrderDetails", Model)
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+
+        </div><!-- /.col -->
+    </div><!-- /.row -->
+</div><!-- /.page-content -->
+
+
+
+@Html.Action("CustomerAuthorizedPopup", "Catalog")
+@Html.Action("CustomerAuthorizedAdd", "Catalog")
+<script>
+    function customerAuthorizedpopup() {
+        var customerId = $("#Order_CustomerId").val();
+        if (customerId == 0) {
+            noty({ text: "Yetkili seçe bilmek için müşteri seçiniz!", layout: 'topRight', type: "error" });
+
+        }
+
+        else {
+            $.ajax({
+                type: "Get",
+                url: "/Catalog/GetCustomerAutList",
+                data: { customerId: customerId },
+                dataType: "html",
+                success: function (data) {
+
+                    $("#customerauthorizedlistpopup").html(data);
+                }
+            });
+
+            $('#customerauthorizedpopup').modal('show');
+        }
+    }
+</script>
+

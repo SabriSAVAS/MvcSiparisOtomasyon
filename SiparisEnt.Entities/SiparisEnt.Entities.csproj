@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FB8B97A9-2EA6-4D17-BC74-2C3A5A5BC73A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SiparisEnt.Entities</RootNamespace>
+    <AssemblyName>SiparisEnt.Entities</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PostSharp, Version=5.0.49.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
+      <HintPath>..\packages\PostSharp.Redist.5.0.49\lib\net45\PostSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Concrete\Brand.cs" />
+    <Compile Include="Concrete\Category.cs" />
+    <Compile Include="Concrete\City.cs" />
+    <Compile Include="Concrete\Customer.cs" />
+    <Compile Include="Concrete\CustomerAuthorized.cs" />
+    <Compile Include="Concrete\Relation.cs" />
+    <Compile Include="Concrete\Delivery.cs" />
+    <Compile Include="Concrete\EntityBase.cs" />
+    <Compile Include="Concrete\Exc.cs" />
+    <Compile Include="Concrete\Order.cs" />
+    <Compile Include="Concrete\OrderBasket.cs" />
+    <Compile Include="Concrete\OrderDetail.cs" />
+    <Compile Include="Concrete\Product.cs" />
+    <Compile Include="Concrete\Role.cs" />
+    <Compile Include="Concrete\Status.cs" />
+    <Compile Include="Concrete\Tax.cs" />
+    <Compile Include="Concrete\Unit.cs" />
+    <Compile Include="Concrete\User.cs" />
+    <Compile Include="Concrete\UserRoleMapping.cs" />
+    <Compile Include="ContextTypes\CustomerDetail.cs" />
+    <Compile Include="ContextTypes\OrderDetailBasket.cs" />
+    <Compile Include="ContextTypes\OrderDetailItem.cs" />
+    <Compile Include="ContextTypes\UserRoleItem.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SiparisEnt.Core\SiparisEnt.Core.csproj">
+      <Project>{2B399D20-375E-4EFB-94B5-B24E5AC4600B}</Project>
+      <Name>SiparisEnt.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

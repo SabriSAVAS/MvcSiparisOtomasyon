@@ -1,0 +1,139 @@
+﻿@model SiparisEnt.Dto.CustomerVM.CustomerModel
+<div class="modal fade" id="customerpopup" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            @using (Ajax.BeginForm("AddEditCustomer", "Customer", FormMethod.Post, new AjaxOptions { OnSuccess = "onsuccess" }))
+            {
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Yeni "Müşteri" Oluştur</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="modal-body">
+
+                        @Html.AntiForgeryToken()
+                        @Html.HiddenFor(x => x.Id)
+                        <div class="form-horizontal" id="customerform">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Müsteri Unvanı : </label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon-right">
+                                                @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Musteri Unvanı" })
+                                            </div>
+                                            <span class="help-block">@Html.ValidationMessageFor(x => x.Name)</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Tel Numarası : </label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon-right">
+                                                @Html.TextBoxFor(x => x.Phone , new { @class = "form-control", @placeholder = "Tel Numarası" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Fax Numarası : </label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon-right">
+                                                @Html.TextBoxFor(x => x.Fax, new { @class = "form-control", @placeholder = "Fax Numarası" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">E-Posta : </label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon-right">
+                                                @Html.TextBoxFor(x => x.eMail, new { @class = "form-control", @placeholder = "E-Posta" })
+                                            </div>
+                                            <span class="help-block">@Html.ValidationMessageFor(x => x.eMail)</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Adres : </label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon-right">
+                                                @Html.TextAreaFor(x => x.Address, new { @class = "form-control", @placeholder = "Adres" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Vergi D. : </label>
+                                        <div class="col-md-3">
+                                            <div class="input-icon-right">
+                                                @Html.TextBoxFor(x => x.TaxOffice, new { @class = "form-control", @placeholder = "Vergi Dairesi" })
+                                            </div>
+                                        </div>
+                                        <label class="col-md-2 control-label">Vergi D.N : </label>
+                                        <div class="col-md-4">
+                                            <div class="input-icon-right">
+                                                @Html.TextBoxFor(x => x.TaxNumber, new { @class = "form-control", @placeholder = "Vergi Dairesi No" })
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">İlçe/Semt : </label>
+                                        <div class="col-md-3">
+                                            <div class="input-icon-right">
+                                                @Html.TextBoxFor(x => x.Country, new { @class = "form-control", @placeholder = "İlçe/Semt" })
+                                            </div>
+                                        </div>
+                                        <label class="col-md-2 control-label">Şehir : </label>
+                                        <div class="col-md-4">
+                                            <div class="input-icon-right">
+                                                @Html.DropDownListFor(x => x.CityId, Model.CityList, "Seçiniz", new { @class = "form-control" })
+                                            </div>
+                                            <span class="help-block">@Html.ValidationMessageFor(x => x.CityId)</span>
+                                        </div>
+
+                                    </div>
+                                    @*<div class="form-group">
+                                        <label class="col-md-3 control-label">Durumu : </label>
+                                        <div class="col-md-9">
+                                            <div class="input-icon-right">
+                                                <label class="radio radio-inline">
+                                                    @Html.RadioButtonFor(x => x.IsActive,true,new { @class = "radiobox" })
+                                                    <span>Aktif</span>
+                                                </label>
+                                                <label class="radio radio-inline">
+                                                    @Html.RadioButtonFor(x => x.IsActive,false, new { @class = "radiobox" })
+                                                    <span>Pasif</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="ace-icon fa fa-times"></i> Kapat</button>
+                    <button type="submit" class="btn btn-primary"><i class="ace-icon fa fa-check bigger-110"></i> Kaydet</button>
+                </div>
+
+            }
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+  
+<script>
+    function onsuccess(result) {
+        if (result == "1") {
+            console.log("eklendi");
+            $('#customerpopup').modal('hide');
+            document.getElementById("customerform").reset();
+            $("form")[0].reset();
+        }
+         
+    }
+</script>

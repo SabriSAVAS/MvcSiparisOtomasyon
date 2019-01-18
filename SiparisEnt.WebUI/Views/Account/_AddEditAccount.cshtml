@@ -1,0 +1,127 @@
+﻿@model SiparisEnt.Dto.AccountVM.AccountModel
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(x => x.Id)
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+    <div class="panel panel-default">
+
+        <div class="panel-heading">
+           Yeni Kullanıcı Oluştur
+        </div>
+
+        <div class="panel-body">
+
+
+            <div class="col-xs-12 col-md-12">
+
+                <div class="form-horizontal">
+                    <legend>
+                        <small>  Kullanıcı Bilgileri</small>
+                    </legend>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">Kullanıcı Adı</label>
+
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control", @placeholder = "Kullanıcı Adı" })
+                                <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                            </div>
+                            <span class="help-block">@Html.ValidationMessageFor(x => x.FirstName)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">Kullanıcı Soyadı</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.LastName, new { @class = "form-control", @placeholder = "Kullanıcı Soyadı" })
+                                <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                            </div>
+                            <span class="help-block">@Html.ValidationMessageFor(x => x.LastName)</span>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">eMail</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.eMail, new { @class = "form-control", @placeholder = "eMail" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                            </div>
+                            <span class="help-block">@Html.ValidationMessageFor(x => x.eMail)</span>
+                        </div>
+                    </div>
+                    
+                   
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Şifre</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.Password, new { @type="password",@class = "form-control", @placeholder = "Şifre" })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                                </div>
+                                <span class="help-block">@Html.ValidationMessageFor(x => x.Password)</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label no-padding-right">Tekrar Şifre</label>
+                            <div class="col-sm-7">
+                                <div class="input-group">
+                                    @Html.TextBoxFor(x => x.ConfirimPassword, new { @type = "password", @class = "form-control", @placeholder = "Tekrar Şifre" })
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
+                                </div>
+                                <span class="help-block">@Html.ValidationMessageFor(x => x.ConfirimPassword)</span>
+                            </div>
+                        </div>
+                  
+                 
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">Telefon</label>
+                        <div class="col-sm-7">
+                            <div class="input-group">
+                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Telefon" })
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                            </div>
+                            <span class="help-block">@Html.ValidationMessageFor(x => x.Phone)</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right">Cinsiyet</label>
+                        <div class="col-sm-7">
+                            <div class="input-icon-right">
+                                <label class="radio radio-inline">
+                                    @Html.RadioButtonFor(x => x.Gender,"Erkek",new { @class = "radiobox" })
+                                    <span>Erkek</span>
+                                </label>
+                                <label class="radio radio-inline">
+                                    @Html.RadioButtonFor(x => x.Gender, "Kadın", new { @class = "radiobox" })
+                                    <span>Kadın</span>
+                                </label>
+                            </div>
+                         
+                        </div>
+                    </div>
+                    <div class="clearfix form-actions">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button class="btn btn-info  pull-right" style="margin-left:10px" type="submit">
+                                <i class="ace-icon fa fa-check bigger-110"></i>
+                                Kaydet
+                            </button>
+
+
+                            <button class="btn  pull-right" type="reset">
+                                <i class="ace-icon fa fa-undo bigger-110"></i>
+                                Temizle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+

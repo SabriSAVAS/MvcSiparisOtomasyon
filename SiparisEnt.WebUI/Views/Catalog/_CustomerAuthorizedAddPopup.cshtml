@@ -1,0 +1,84 @@
+﻿@model SiparisEnt.Dto.CatalogVM.CustomerAuthorizedAddViewModel
+<div class="modal fade bd-example-modal-lg" id="customerauthorizedAddpopup" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Müşteri Yetkili Kayıt</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @using (Ajax.BeginForm("CustomerAuthorizedAdd", "Catalog", FormMethod.Post, new AjaxOptions {OnSuccess = "customerauthorizedsucces()"}))
+            {
+                <div class="modal-body">
+                        <div class="form-horizontal">
+                            @Html.HiddenFor(x=>x.CustomerAuthorized.CustomerId,new{ Id= "CustomerAuthorizedCustomerId" })
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Yetkili Adı : </label>
+                                <div class="col-md-8">
+                                    <div class="input-icon-right">
+                                        @Html.TextBoxFor(x => x.CustomerAuthorized.FirstName, new { @class = "form-control", @placeholder = "Yetkili Adı" })
+                                    </div>
+                                    <span class="help-block">@Html.ValidationMessageFor(x => x.CustomerAuthorized.FirstName)</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Yetkili Soyad : </label>
+                                <div class="col-md-8">
+                                    <div class="input-icon-right">
+                                        @Html.TextBoxFor(x => x.CustomerAuthorized.LastName, new { @class = "form-control", @placeholder = "Yetkili Soyad" })
+                                    </div>
+                                    <span class="help-block">@Html.ValidationMessageFor(x => x.CustomerAuthorized.LastName)</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Telefon : </label>
+                                <div class="col-md-8">
+                                    <div class="input-icon-right">
+                                        @Html.TextBoxFor(x => x.CustomerAuthorized.Phone, new { @class = "form-control", @placeholder = "Telefon" })
+                                    </div>
+                                    <span class="help-block">@Html.ValidationMessageFor(x => x.CustomerAuthorized.Phone)</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">eMail : </label>
+                                <div class="col-md-8">
+                                    <div class="input-icon-right">
+                                        @Html.TextBoxFor(x => x.CustomerAuthorized.eMail, new { @class = "form-control", @placeholder = "eMail" })
+                                    </div>
+                                    <span class="help-block">@Html.ValidationMessageFor(x => x.CustomerAuthorized.eMail)</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Açıklama : </label>
+                                <div class="col-md-8">
+                                    <div class="input-icon-right">
+                                        @Html.TextAreaFor(x => x.CustomerAuthorized.Description, new { @class = "form-control", @placeholder = "Açıklama" })
+                                    </div>
+                                    <span class="help-block">@Html.ValidationMessageFor(x => x.CustomerAuthorized.Description)</span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+             
+
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success" value="Kaydet" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function customerauthorizedsucces() {
+        document.getElementById("form0").reset();
+        $('#customerauthorizedAddpopup').modal('hide');
+        noty({ text: "Yetkili kaydı yapıldı.", layout: 'topRight', type: "info" });
+    }
+</script>

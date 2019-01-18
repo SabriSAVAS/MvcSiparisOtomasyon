@@ -1,0 +1,141 @@
+﻿@model SiparisEnt.Dto.AccountVM.AccountSearchModel
+@{
+    ViewBag.Title = "List";
+}
+
+
+
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home">Ana SAYFA</a>
+            </li>
+
+            <li class="active">Kullanıcılar</li>
+        </ul><!-- /.breadcrumb -->
+
+        <div>
+
+
+        </div>
+    </div>
+
+    <div class="page-content">
+
+        <a href="javascript:window.history.back();" style="margin-bottom: 10px" class="btn btn-danger pull-right"><i class="fa fa-chevron-circle-left"></i> Geri Dön</a>
+        <a href="/Account/Add" style="margin-bottom: 10px;margin-right: 5px" class="btn btn-info pull-right"><i class="fa fa-plus-circle"></i> Yeni Kullanıcı</a>
+
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-blue" id="myTab">
+                        <li class="active">
+                            <a data-toggle="tab" href="#search">
+                                <i class="green ace-icon glyphicon glyphicon-search"></i>
+                                Arama
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="search" class="tab-pane fade in active">
+
+                            @using (Ajax.BeginForm("List", "Account", FormMethod.Post, new AjaxOptions { OnSuccess = "ajaxonsuccess" }))
+                            {
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="col-sm-1 control-label no-padding-right">Kullanıcı Adı </label>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Kullanıcı Adı" })
+
+                                                <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                                            </div>
+                                        </div>
+
+                                        <label class="col-sm-1 control-label no-padding-right">e-Mail </label>
+
+                                        <div class="col-sm-3">
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(x => x.eMail, new { @class = "form-control", @placeholder = "e-Mail" })
+
+                                                <span class="input-group-addon"><i class="fa fa-comment-o"></i></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <button type="submit" class="btn btn-primary btn-sm pull-left"><i class="glyphicon glyphicon-search"></i> Arama</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div id="accountlist">
+                        @Html.Partial("_accountList", Model)
+                    </div>
+
+                </div>
+
+
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.page-content -->
+</div>
+
+
+<script>
+    function ajaxonsuccess(result) {
+        $("#accountlist").html(result);
+    }
+</script>
+<script>
+    function accountDelete(id) {
+        bootbox.confirm("Silmek istediğinize emin misiniz?",
+            function(result) {
+                if (result) {
+                    $.ajax({
+                        type: "Post",
+                        url: "/Account/Delete",
+                        data: { Id: id },
+                        success: function(result) {
+                            if (result) {
+                                $("#tr_"+id).remove();
+                                noty({ text: 'Silme işlemi başarılı !', layout: 'topRight', type: 'success' });
+                            } else {
+                                noty({ text: 'Silme işlemi başarısız !', layout: 'topRight', type: 'error' });
+                            }
+                        }
+                    });
+                }
+            });
+    }
+</script>
+<script>
+    function accountChangePassword(id) {
+        $("#Password").val('');
+        $("#ChangePassword").val('');
+        $('#passwordchangepopup').modal('show');
+    }
+</script>
+
+@Html.Action("AccountChangePassword", "Account")
+
+<script>
+    function passwordchangesucces(result) {
+        if (result) {
+
+            noty({ text: 'Şifre değiştirme işlemi başarılı !', layout: 'topRight', type: 'success' });
+        } else {
+            noty({ text: 'Şifre değiştirme işlemi başarısız !', layout: 'topRight', type: 'error' });
+        }
+        $("#Password").val('');
+        $("#ChangePassword").val('');
+        $('#passwordchangepopup').modal('hide');
+    }
+</script>

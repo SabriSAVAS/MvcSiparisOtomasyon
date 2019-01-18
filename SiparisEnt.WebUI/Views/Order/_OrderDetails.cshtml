@@ -1,0 +1,145 @@
+﻿@model SiparisEnt.Dto.OrderVM.OrderModel
+<div class="panel panel-info">
+    <div class="panel-heading">
+        Sipariş Ürünleri
+    </div>
+    <div class="panel-title">
+        <a href="javascript:productpopup()" style="margin-left: 18px; margin-top: 5px" class="btn btn-success">
+            <i class="fa fa-plus-square"></i>
+            Satır Ekle
+        </a>
+    </div>
+    <div class="panel-body">
+
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th style="width: 21%">ÜRÜN/HİZMET</th>
+                        <th style="width: 10%">MİKTAR</th>
+                        <th style="width: 10%">BİRİM</th>
+                        <th style="width: 15%">BİRİM FİYATI</th>
+                        <th style="width: 10%">İSKONTO</th>
+                        <th style="width: 10%">VERGİ</th>
+                        <th style="width: 15%">TUTAR</th>
+                        <th style="text-align: center; width: 9%;">
+                            <i class="fa fa-cog"></i>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        if (Model.OrderDetailList != null && Model.OrderDetailList.Count != 0)
+                        {
+                            foreach (var order in Model.OrderDetailList)
+                            {
+                                <tr id="tr_@order.OrderDetail.ProductId">
+                                    <td>
+                                        <div class="input-group">
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-pencil"></i>
+                                            </span>
+                                            @Html.TextBoxFor(x => order.ProductName, new { disabled = "true", @class = "form-control" })
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" value="@order.Quantity" onchange="orderquantitychange(@order.OrderDetail.ProductId)" attr-id="OrderQuantity_@order.Quantity" id="OrderId_@order.OrderDetail.ProductId" />
+                                            @*@Html.TextBoxFor(x => order.Quantity, new { @class = "form-control" })*@
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-plus-square"></i>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(x => order.OrderDetail.Unit, new { disabled = "true", @class = "form-control" })
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" value="@order.OrderDetail.UnitPrice" onchange="orderunitpricechange(@order.OrderDetail.ProductId)" attr-id="OrderQuantity_@order.OrderDetail.UnitPrice" id="OrderQuantity_@order.OrderDetail.ProductId" />
+                                            @*  @Html.TextBoxFor(x => order.UnitPrice, new { @class = "form-control" })*@
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-try"></i>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" value="@order.OrderDetail.Discount" onchange="orderdiscountchange(@order.OrderDetail.ProductId)" attr-id="OrderDisCount_@order.OrderDetail.Discount" id="OrderDisCount_@order.OrderDetail.ProductId" />
+                                            @* @Html.TextBoxFor(x => order.DisCount, new { @class = "form-control" })*@
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(x => order.OrderDetail.Tax, new { disabled = "true", @class = "form-control" })
+                                            <span class="input-group-addon">%</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="input-group">
+                                            <input type="text" disabled class="form-control" value="@String.Format("{0:c}", order.OrderDetail.Total)" />
+                                            @*@Html.TextBoxFor(x => order.Total, new {disabled = "true", @class = "form-control"})*@
+                                            <span class="input-group-addon">
+                                                <i class="fa fa-try"></i>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-success">
+                                            <i class="fa fa-info-circle"></i>
+                                        </a>
+                                        <a href="javascript:orderBasketDelete(@order.OrderDetail.ProductId)" id="orderId_@order.OrderDetail.ProductId" data-id="@order.Id" class="btn btn-sm btn-success">
+                                            <i class="fa fa-remove"></i>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="8" class="center">
+                                <h4>Ürün Sepeti !</h4>
+                            </td>
+                        </tr>
+                    }
+
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+    </div>
+
+    <div class="panel-footer">
+        <button class="btn btn-success">Ara Toplam : @String.Format("{0:c}", Model.OrderDetailList.Sum(x => x.OrderDetail.Total))</button>
+        <button class="btn btn-success">İskonto Toplam : @String.Format("{0:c}", Model.OrderDetailList.Sum(x => x.OrderDetail.DisCountTotal))</button>
+        <button class="btn btn-success">
+            K.D.V Toplam : @String.Format("{0:c}", Model.OrderDetailList.Sum(x => x.OrderDetail.Tax1Total + x.OrderDetail.Tax2Total + x.OrderDetail.Tax3Total + x.OrderDetail.Tax4Total))
+
+        </button>
+        <button class="btn btn-success">
+            Genel Toplam :  @String.Format(
+                     "{0:c}",
+
+
+                     Model.OrderDetailList.Sum(x => ((x.OrderDetail.Total - x.OrderDetail.DisCountTotal) * x.OrderDetail.Tax / 100) + (x.OrderDetail.Total - x.OrderDetail.DisCountTotal))
+
+                     )
+        </button>
+    </div>
+    <input type="submit" style="margin-top:5px" class="btn btn-primary pull-right" value="Kaydet" />
+
+</div>
+

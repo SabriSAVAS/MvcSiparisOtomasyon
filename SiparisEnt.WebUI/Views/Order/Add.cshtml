@@ -1,0 +1,199 @@
+﻿@model SiparisEnt.Dto.OrderVM.OrderModel
+@{
+    /**/
+
+    ViewBag.Title = "Add";
+}
+
+@section Head{
+
+    <link href="~/Content/bootstrap-datepicker3.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-timepicker.min.css" rel="stylesheet" />
+    <link href="~/Content/daterangepicker.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+
+}
+
+<div class="main-content-inner">
+    <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+        <ul class="breadcrumb">
+            <li>
+                <i class="ace-icon fa fa-home home-icon"></i>
+                <a href="/Home">Ana SAYFA</a>
+            </li>
+
+            <li class="active">Sipariş Oluştur</li>
+        </ul><!-- /.breadcrumb -->
+
+        <div>
+
+
+        </div>
+    </div>
+
+    @Html.Partial("_AddEditOrder", Model)
+
+</div>
+
+@Html.Action("CustomerPopup", "Catalog")
+@Html.Action("ProductPopup", "Catalog")
+
+
+
+
+
+@section Scripts{
+ 
+    <script src="~/scripts/bootstrap-datepicker.min.js"></script>
+    <script src="~/scripts/jquery.validate.date.js"></script>
+    <script>
+        $(function () {
+            $('.datepicker1').datepicker({
+                format: 'dd/mm/yyyy'
+            });
+
+            $('.datepicker2').datepicker({
+                format: 'dd/mm/yyyy'
+            });
+        });
+    </script>
+}
+<script>
+    function customerpopup() {
+        $('#customerpopup').modal('show');
+    }
+</script>
+<script>
+    function productpopup() {
+        $('#productpopup').modal('show');
+    }
+</script>
+<script>
+    function productselect(productId) {
+        console.log(productId);
+        var productname = $("#productname_" + productId).attr("data-id");
+        $.ajax({
+            type: "Post",
+            url: "/Order/AddOrderBasket",
+            data: { productId: productId },
+            success: function (result) {
+                $('#productpopup').modal('hide');
+                GetOrderBasketList();
+            }
+        });
+    }
+
+    function GetOrderBasketList() {
+        $.ajax({
+            type: "Post",
+            url: "/Order/GetOrderBasketList",
+            dataType: "html",
+            success: function (result) {
+                $('#orderbasketlist').html(result);
+
+            }
+        });
+    }
+
+    function orderquantitychange(Id) {
+        console.log(Id);
+        //var orderquantity = $("#OrderQuantity_" + productId).attr("data-id");
+        var orderquantity = $("#OrderId_" + Id).val();
+        console.log(orderquantity);
+        $.ajax({
+            type: "Post",
+            url: "/Order/ChangeOrderQuantity",
+            data: { Id: Id, orderquantity: orderquantity },
+            success: function (result) {
+                $('#productpopup').modal('hide');
+                GetOrderBasketList();
+                orderdiscountchange(Id);
+            }
+        });
+    }
+
+    function orderunitpricechange(Id) {
+        console.log(Id);
+        //var orderquantity = $("#OrderQuantity_" + productId).attr("data-id");
+        var orderprice = $("#OrderQuantity_" + Id).val();
+        console.log(orderprice);
+        $.ajax({
+            type: "Post",
+            url: "/Order/ChangeOrderPrice",
+            data: { Id: Id, orderprice: orderprice },
+            success: function (result) {
+                $('#productpopup').modal('hide');
+                GetOrderBasketList();
+                orderdiscountchange(Id);
+            }
+        });
+    }
+
+    function orderdiscountchange(Id) {
+        console.log(Id);
+        //var orderquantity = $("#OrderQuantity_" + productId).attr("data-id");
+        var orderdiscount = $("#OrderDisCount_" + Id).val();
+        console.log("discount= " + orderdiscount);
+        $.ajax({
+            type: "Post",
+            url: "/Order/ChangeOrderDisCount",
+            data: { Id: Id, orderdiscount: orderdiscount },
+            success: function (result) {
+                $('#productpopup').modal('hide');
+                GetOrderBasketList();
+            }
+        });
+    }
+
+    function ordercheck() {
+        var OrderSeries = $("#OrderSeries").val();
+        console.log(OrderSeries);
+
+
+        $.ajax({
+            type: "Post",
+            url: "/Order/OrderSeriNo",
+            data: { OrderSeries: OrderSeries },
+            success: function (result) {
+                $("#OrderNo").val(result);
+            }
+        });
+    }
+</script>
+<script>
+    function orderBasketDelete(id) {
+
+        bootbox.confirm("Silmek istediğinize emin misiniz?",
+            function (result) {
+                if (result) {
+                    $.ajax({
+                        type: "Post",
+                        url: "/Order/DeleteOrderBasket",
+                        data: { Id: id },
+                        success: function (result) {
+
+                            console.log(result.Message + "/" + result.ErrorType);
+
+                            var errorType = result.ErrorType;
+                            var message = result.Message;
+
+                            toastr[errorType](message);
+                            if (result.ErrorType === "success") {
+                                $("#tr_" + id).remove();
+
+                            }
+
+
+                        },
+                        error: function (xhr, statusText, err) {
+                            alert("Error:" + xhr.status);
+                        }
+
+
+                    });
+                }
+            });
+    }
+
+
+</script>
